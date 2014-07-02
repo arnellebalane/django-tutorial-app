@@ -1,7 +1,12 @@
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'polls/styles.css' %}">
+
+<h1>Listing All Polls</h1>
+
 {% if latest_poll_list %}
-    <ul>
+    <ul class="list list--alternate">
         {% for poll in latest_poll_list %}
-            <li><a href="{% url 'polls:detail' poll.id %}">{{ poll.question }}</a></li>
+            <li><a href="{% url 'polls:detail' poll.id %}" class="item item--block">{{ poll.question }}</a></li>
         {% endfor %}
     </ul>
 {% else %}
