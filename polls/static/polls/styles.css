@@ -7,39 +7,114 @@
 }
 
 html {
-    font-family: "Ubuntu Mono";
+    font-family: "Open Sans", "Ubuntu Mono";
     font-size: 62.5%;
     color: #333333;
 }
 
+body {
+    background: url("images/background.png");
+}
+
 h1 {
-    padding: 10px 15px;
+    font-size: 2rem;
 }
 
-.list {
-    padding: 5px;
+
+
+.wrapper {
+    padding: 10px;
 }
 
-.list > * {
-    display: block;
-}
-
-.list--alternate > *:nth-of-type(even) {
+.list--alternate .list-container > *:nth-of-type(even) {
     background-color: #dddddd;
 }
 
-.item {
-    display: block;
+.list-header {
+    margin: 0 0 10px 10px;
+}
+
+.list-container {
+    list-style: none;
     font-size: 1.4rem;
-    text-decoration: none;
     color: #333333;
+}
+
+.list-container > * {
+    display: block;
+}
+
+.list-item {
+    display: block;
     padding: 10px;
     border-radius: 3px;
 }
 
-.item:hover, 
-.item:focus {
+a.list-item {
+    text-decoration: none;
+    color: #333333;
+}
+
+.list-item:hover,
+.list-item:focus {
     background-color: #cccccc;
-    border: 1px solid #aaaaaa;
+    border: 1px solid #bbbbbb;
     padding: 9px;
+}
+
+.list-actions {
+    margin: 10px 0 0 10px;
+}
+
+.list-notif {
+    margin: 15px 0 10px 10px;
+}
+
+
+.button {
+    display: inline-block;
+    font: normal 1.2rem/1 "Open Sans", "Ubuntu Mono";
+    text-transform: uppercase;
+    color: #ffffff;
+    padding: 6px 10px 4px 10px;
+    background-color: #49A8E7;
+    border: 1px solid #49A8E7;
+    border-radius: 2px;
+    box-shadow: 0 2px 0 #1A81C5;
+    position: relative;
+    outline: none;
+    cursor: pointer;
+}
+
+a.button {
+    text-decoration: none;
+}
+
+.button:hover,
+.button:focus {
+    background-color: #5FB3EA;
+    border-color: #5FB3EA;
+}
+
+.button:active {
+    top: 2px;
+    box-shadow: none;
+}
+
+
+
+.notif {
+    font-size: 1.4rem;
+}
+
+.notif--error {
+    color: #D70F0F;
+}
+
+.notif--notice {
+    color: #137F09;
+}
+
+.notif--info {
+    color: #B08D0C;
 }
