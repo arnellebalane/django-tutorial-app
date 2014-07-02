@@ -7,16 +7,22 @@ from django.core.urlresolvers import reverse
 from polls.models import Poll
 
 
-def create_poll(question, days):
+def create_poll(question, days, choices = 3):
     """
     Creates a poll with the given `question` published the given number of
     `days` offset to now (negative for polls published in the past, positive
-    for polls that have yet to be published).
+    for polls that have yet to be published) and with `choices` number of 
+    choices.
     """
-    return Poll.objects.create(
+    poll = Poll.objects.create(
         question = question, 
         pub_date = timezone.now() + datetime.timedelta(days = days)
     )
+
+    for i in range(choices):
+        poll.choice_set.create(choice_text = "Choice No. %d" % i)
+
+    return poll
 
 
 class PollMethodTests(TestCase):
@@ -96,6 +102,25 @@ class PollIndexViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertQuerysetEqual(response.context['latest_poll_list'], ['<Poll: Who is she?>', '<Poll: Who is he?>'])
 
+    def test_index_view_a_poll_having_no_choices(self):
+        """
+        Polls with no choices should not be displayed on the index page.
+        """
+        create_poll(question = 'Who are you?', days = -5, choices = 0)
+        response = self.client.get(reverse('polls:index'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'No polls are available.')
+        self.assertQuerysetEqual(response.context['latest_poll_list'], [])
+
+    def test_index_view_with_a_poll_having_some_choices(self):
+        """
+        Polls with choices should be displayed on the index page.
+        """
+        create_poll(question = 'Who are you?', days = -5, choices = 5)
+        response = self.client.get(reverse('polls:index'))
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(response.context['latest_poll_list'], ['<Poll: Who are you?>'])
+
 
 class PollDetailViewTests(TestCase):
 
@@ -118,6 +143,25 @@ class PollDetailViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, poll.question)
 
+    def test_detail_view_with_a_poll_having_no_choices(self):
+        """
+        The detail view of a poll with no choices should return 
+        a 404 Page Not Found.
+        """
+        poll = create_poll(question = 'Who are you?', days = -5, choices = 0)
+        response = self.client.get(reverse('polls:detail', args = (poll.id,)))
+        self.assertEqual(response.status_code, 404)
+
+    def test_detail_view_with_a_poll_having_some_choices(self):
+        """
+        The detail view of a poll with choices should
+        display the poll's question.
+        """
+        poll = create_poll(question = 'Who are you?', days = -5, choices = 5)
+        response = self.client.get(reverse('polls:detail', args = (poll.id,)))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, poll.question)
+
 
 class PollResultsViewTests(TestCase):
 
@@ -132,10 +176,29 @@ class PollResultsViewTests(TestCase):
 
     def test_results_view_with_a_past_poll(self):
         """
-        The results view of a pol with a pub_date in the future should
+        The results view of a poll with a pub_date in the future should
         display the poll's results.
         """
         poll = create_poll(question = 'Who are you?', days = -5)
+        response = self.client.get(reverse('polls:results', args = (poll.id,)))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, poll.question)
+
+    def test_results_view_with_a_poll_having_no_choices(self):
+        """
+        The results view of a poll with no choices should return
+        a 404 Page Not Found.
+        """
+        poll = create_poll(question = 'Who are you?', days = -5, choices = 0)
+        response = self.client.get(reverse('polls:results', args = (poll.id,)))
+        self.assertEqual(response.status_code, 404)
+
+    def test_results_view_with_a_poll_having_some_choices(self):
+        """
+        The results view of a poll with some choices should
+        display the poll's results.
+        """
+        poll = create_poll(question = 'Who are you?', days = -5, choices = 5)
         response = self.client.get(reverse('polls:results', args = (poll.id,)))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, poll.question)

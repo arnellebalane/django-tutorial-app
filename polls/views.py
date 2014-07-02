@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views import generic
 from django.utils import timezone
+from django.db.models import Count
 
 from polls.models import Choice, Poll
 
@@ -15,7 +16,9 @@ class IndexView(generic.ListView):
         """
         Return the last five published polls.
         """
-        return Poll.objects.filter(pub_date__lte = timezone.now()).order_by('-pub_date')[:5]
+        polls = Poll.objects.annotate(choices_count = Count('choice'))
+        polls = polls.filter(choices_count__gt = 0, pub_date__lte = timezone.now())
+        return polls.order_by('-pub_date')[:5]
 
 
 class DetailView(generic.DetailView):
@@ -26,7 +29,8 @@ class DetailView(generic.DetailView):
         """
         Excludes any polls whose pub_date are in the future.
         """
-        return Poll.objects.filter(pub_date__lte = timezone.now())
+        polls = Poll.objects.annotate(choices_count = Count('choice'))
+        return polls.filter(choices_count__gt = 0, pub_date__lte = timezone.now())
 
 
 class ResultsView(generic.DetailView):
@@ -37,7 +41,8 @@ class ResultsView(generic.DetailView):
         """
         Excludes any polls whose pub_date are in the future.
         """
-        return Poll.objects.filter(pub_date__lte = timezone.now())
+        polls = Poll.objects.annotate(choices_count = Count('choice'))
+        return polls.filter(choices_count__gt = 0, pub_date__lte = timezone.now())
 
 
 def vote(request, poll_id):
