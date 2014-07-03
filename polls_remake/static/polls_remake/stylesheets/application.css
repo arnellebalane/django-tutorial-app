@@ -1,0 +1,209 @@
+/** GLOBAL STYLES **/
+*, *:before, *:after {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: "Open Sans", "Arial", "Ubuntu Mono";
+    font-size: 62.5%;
+    color: #333333;
+}
+
+body {
+    background-image: url("../images/background.png");
+}
+
+h1 {
+    font-size: 2.8rem;
+    font-weight: normal;
+}
+
+p,
+table,
+label {
+    font-size: 1.4rem;
+}
+
+input[type="radio"] {
+    display: inline-block;
+    vertical-align: top;
+    margin: 4px 5px 0 0;
+}
+
+.wrapper {
+    width: 600px;
+    margin: 20px auto 0 auto;
+}
+
+#app-name {
+    font-size: 1.4rem;
+    color: #49A8E7;
+    text-decoration: none;
+    margin-left: 10px;
+    padding-left: 15px;
+    position: relative;
+}
+
+#app-name:hover,
+#app-name:focus {
+    color: rgba(73, 168, 231, 0.75);
+}
+
+#app-name:before {
+    content: '>>';
+    position: absolute;
+    top: 1px;
+    left: 0;
+    letter-spacing: -3px;
+}
+
+
+
+/** COMPONENTS **/
+.table {
+    padding: 10px;
+}
+
+.table header {
+    margin-bottom: 10px;
+}
+
+.table table,
+.table tbody,
+.table tr {
+    display: block;
+}
+
+.table table {
+    border-collapse: collapse;
+    border: 1px solid #49A8E7;
+    border-bottom-width: 2px;
+    border-radius: 2px;
+}
+
+.table tr {
+    overflow: hidden;
+    text-align: center;
+}
+
+.table .left {
+    text-align: left;
+}
+
+.table .table-header {
+    background-color: #49A8E7;
+}
+
+.table th, 
+.table td {
+    float: left;
+    width: 50%;
+    margin: 0;
+    padding: 8px 10px;
+    border-left: 1px solid #49A8E7;
+}
+
+.table th {
+    color: #ffffff;
+}
+
+.table th:first-child, 
+.table td:first-child {
+    border-left: none;
+}
+
+.list {
+    padding: 10px;
+}
+
+.list header {
+    margin-bottom: 10px;
+}
+
+.list-item {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 2px;
+}
+
+.list .notif {
+    margin: 0 0 10px 10px;
+}
+
+.actions {
+    margin-top: 10px;
+}
+
+.actions .button {
+    margin-right: 7px;
+}
+
+.button {
+    display: inline-block;
+    font: normal 1.2rem/1 "Open Sans", "Arial", "Ubuntu Mono";
+    text-transform: uppercase;
+    color: #ffffff;
+    padding: 8px 10px 6px 10px;
+    background-color: #49A8E7;
+    border: 1px solid #49A8E7;
+    border-radius: 2px;
+    box-shadow: 0 2px 0 #1A81C5;
+    position: relative;
+    outline: none;
+    cursor: pointer;
+}
+
+a.button {
+    text-decoration: none;
+}
+
+.button:hover,
+.button:focus {
+    background-color: #5FB3EA;
+    border-color: #5FB3EA;
+}
+
+.button:active {
+    top: 2px;
+    box-shadow: none;
+}
+
+
+
+/** MODIFIERS **/
+.table--interactive .table-item {
+    cursor: pointer;
+}
+
+.table--interactive .table-item:hover {
+    background-color: rgba(73, 168, 231, 0.5);
+}
+
+.table--alternate tr:nth-of-type(even) {
+    background-color: rgba(73, 168, 231, 0.25);
+}
+
+.list--interactive .list-item {
+    cursor: pointer;
+}
+
+.list--interactive .list-item:hover,
+.list--interactive .list-item:focus {
+    background-color: rgba(73, 168, 231, 0.5);
+}
+
+.notif--error {
+    color: #D70F0F;
+}
+
+.notif--notice {
+    color: #137F09;
+}
+
+.notif--info {
+    color: #B08D0C;
+}

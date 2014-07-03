@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{ poll.question.lower }} | django-polls results</title>
+
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'polls_remake/stylesheets/application.css' %}">
+</head>
+
+<body>
+    <div class="wrapper">
+        <a href="{% url 'polls_remake:index' %}" id="app-name">django-polls</a>
+
+        <div class="table table--alternate">
+            <header>
+                <h1>{{ poll.question }}</h1>
+            </header>
+
+            <table>
+                <tr class="table-header">
+                    <th>Choice</th>
+                    <th>Votes</th>
+                </tr>
+
+                {% for choice in poll.choice_set.all %}
+                    <tr class="table-item">
+                        <td class="left">{{ choice.choice_text }}</td>
+                        <td>{{ choice.votes }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            <div class="actions">
+                <a href="{% url 'polls_remake:detail' poll.id %}" class="button">Vote Again?</a>
+                <a href="{% url 'polls_remake:index' %}" class="button">Back to List</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

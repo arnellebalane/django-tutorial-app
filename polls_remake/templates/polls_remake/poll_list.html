@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>django-polls index</title>
+
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'polls_remake/stylesheets/application.css' %}">
+</head>
+
+<body>
+    <div class="wrapper">
+        <a href="{% url 'polls_remake:index' %}" id="app-name">django-polls</a>
+
+        <section class="table table--alternate table--interactive">
+            <header>
+                <h1>Listing All Polls</h1>
+            </header>
+
+            {% if latest_poll_list %}
+                <table>
+                    <tr class="table-header">
+                        <th>Question</th>
+                        <th>Publication Date</th>
+                    </tr>
+
+                    {% for poll in latest_poll_list %}
+                        <tr class="table-item left" data-target="{% url 'polls_remake:detail' poll.id %}">
+                            <td>{{ poll.question }}</td>
+                            <td>{{ poll.pub_date }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p class="notif notif--info">No polls are available</p>
+            {% endif %}
+        </section>
+    </div>
+
+    <script src="{% static 'polls_remake/javascripts/application.js' %}"></script>
+</body>
+</html>
