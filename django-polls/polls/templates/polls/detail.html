@@ -1,0 +1,28 @@
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'polls/styles.css' %}">
+
+<div class="wrapper">
+    <div class="list">
+        <h1 class="list-header">{{ poll.question }}</h1>
+
+        {% if error_message %}
+            <p class="notif notif--error list-notif">{{ error_message }}</p>
+        {% endif %}
+
+        <form action="{% url 'polls:vote' poll.id %}" method="post" class="list-container">
+            {% csrf_token %}
+
+            {% for choice in poll.choice_set.all %}
+            <label class="list-item">
+                <input type="radio" name="choice" value="{{ choice.id }}">
+                {{ choice.choice_text }}
+            </label>
+            {% endfor %}
+
+            <div class="list-actions">
+                <input type="submit" value="Vote" class="button">
+                <a href="{% url 'polls:index' %}" class="button">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
