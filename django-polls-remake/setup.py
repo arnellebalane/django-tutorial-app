@@ -8,8 +8,8 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name = 'django-polls-remake',
-    version = '0.2',
-    packages = ['polls-remake'],
+    version = '0.1',
+    packages = ['polls_remake'],
     include_package_data = True,
     license = 'MIT License',
     description = 'A simple Django app to conduct Web-based polls.',

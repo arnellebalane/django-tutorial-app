@@ -1,4 +1,4 @@
 include LICENSE
 include README.rst
-recursive-include polls-remake/static *
-recursive-include polls-remake/templates *
+recursive-include polls_remake/static *
+recursive-include polls_remake/templates *
