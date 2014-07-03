@@ -192,7 +192,7 @@ class PollsDetailViewTests(TestCase):
 
 class PollsResultsViewTests(TestCase):
 
-    def test_detail_view_with_a_future_poll(self):
+    def test_results_view_with_a_future_poll(self):
         """
         Results page for a poll with a pub_date in the future should 
         return 404 Page Not Found.
@@ -201,7 +201,7 @@ class PollsResultsViewTests(TestCase):
         response = self.client.get(reverse('polls_remake:results', args = (poll.id,)))
         self.assertEqual(response.status_code, 404)
 
-    def test_detail_view_with_a_past_poll(self):
+    def test_results_view_with_a_past_poll(self):
         """
         Results page for a poll with a pub_date in the past should
         display the poll's question.
@@ -211,7 +211,7 @@ class PollsResultsViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, poll.question)
 
-    def test_detail_view_with_a_poll_having_no_choices(self):
+    def test_results_view_with_a_poll_having_no_choices(self):
         """
         Results page for a poll with no choices should return 
         404 Page Not Found, regardless of it's pub_date.
@@ -220,7 +220,7 @@ class PollsResultsViewTests(TestCase):
         response = self.client.get(reverse('polls_remake:results', args = (poll.id,)))
         self.assertEqual(response.status_code, 404)
 
-    def test_detail_view_with_a_past_poll_having_some_choices(self):
+    def test_results_view_with_a_past_poll_having_some_choices(self):
         """
         Results page for a poll with choices should display the poll's
         question, as long as the poll's pub_date is in the past.
@@ -230,7 +230,7 @@ class PollsResultsViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, poll.question)
 
-    def test_detail_view_with_a_future_poll_having_some_choices(self):
+    def test_results_view_with_a_future_poll_having_some_choices(self):
         """
         Results page for a poll with some choices should return 
         404 Page Not Found if the poll's pub_date is in the future
