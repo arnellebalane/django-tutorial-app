@@ -1,24 +1,37 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.views import generic
+from django.core.urlresolvers import reverse
+from django.utils import timezone
+from django.db.models import Count
 
 from polls_third_attempt.models import Poll, Choice
 
 
 class IndexView(generic.ListView):
-    model = Poll
     template_name = 'polls_third_attempt/index.html'
     context_object_name = 'latest_poll_list'
 
+    def get_queryset(self):
+        polls = Poll.objects.annotate(choices_count = Count('choice'))
+        polls = polls.filter(choices_count__gt = 0, pub_date__lte = timezone.now())
+        return polls.order_by('-pub_date')[:5]
+
 
 class DetailView(generic.DetailView):
-    model = Poll
     template_name = 'polls_third_attempt/detail.html'
+
+    def get_queryset(self):
+        polls = Poll.objects.annotate(choices_count = Count('choice'))
+        return polls.filter(choices_count__gt = 0, pub_date__lte = timezone.now())
 
 
 class ResultsView(generic.DetailView):
-    model = Poll
     template_name = 'polls_third_attempt/results.html'
+
+    def get_queryset(self):
+        polls = Poll.objects.annotate(choices_count = Count('choice'))
+        return polls.filter(choices_count__gt = 0, pub_date__lte = timezone.now())
 
 
 def vote(request, poll_id):
@@ -34,4 +47,4 @@ def vote(request, poll_id):
     else:
         choice.votes += 1
         choice.save()
-        return HttpResponseRedirect('/polls/%d/results' % poll.id)
+        return HttpResponseRedirect(reverse('polls_third_attempt:results', args = (poll.id,)))
