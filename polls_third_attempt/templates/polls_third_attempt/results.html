@@ -1,0 +1,10 @@
+{{ poll.question }}
+
+<ul>
+    {% for choice in poll.choice_set.all %}
+        <li>{{ choice.choice_text }} -- {{ choice.votes }}</li>
+    {% endfor %}
+</ul>
+
+<a href="/polls/{{ poll.id }}">Vote Again?</a>
+<a href="/polls">Back to List</a>
