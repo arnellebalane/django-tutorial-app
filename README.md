@@ -9,5 +9,6 @@ The different attempts in doing the tutorial are placed in different branches wi
 | ------- | -------------- |
 | first   | master         |
 | second  | second-attempt |
+| third   | third-attemp   |
 
 Additionally, since the last advanced part of the tutorial discussed about how to pack our own apps into their own packages, the packed packages for the polling application (django-polls) are also already included within the project directory to avoid creating a separate repository for it.
