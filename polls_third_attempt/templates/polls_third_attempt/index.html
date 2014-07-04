@@ -1,11 +1,30 @@
-<h1>Listing All Polls</h1>
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>django-polls index</title>
 
-{% if latest_poll_list %}
-    <ul>
-        {% for poll in latest_poll_list %}
-            <li><a href="{% url 'polls_third_attempt:detail' poll.id %}">{{ poll.question }}</a></li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p><strong>No polls are available.</strong></p>
-{% endif %}
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'polls_third_attempt/stylesheets/application.css' %}">
+</head>
+
+<body>
+    <div class="wrapper">
+        <section class="list list--interactive">
+            <header>
+                <h1>Listing Latest Polls</h1>
+            </header>
+
+            {% if latest_poll_list %}
+                <ul class="list-container">
+                    {% for poll in latest_poll_list %}
+                        <li><a href="{% url 'polls_third_attempt:detail' poll.id %}" class="list-item">{{ poll.question }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="notif notif--info">No polls are available.</p>
+            {% endif %}
+        </section>
+    </div>
+</body>
+</html>

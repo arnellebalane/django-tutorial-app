@@ -1,19 +1,40 @@
-<h1>{{ poll.question }}</h1>
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{ poll.question.lower }} | django-polls detail</title>
 
-{% if error_message %}
-    <p><strong>{{ error_message }}</strong></p>
-{% endif %}
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'polls_third_attempt/stylesheets/application.css' %}">
+</head>
 
-<form action="{% url 'polls_third_attempt:vote' poll.id %}" method="post">
-    {% csrf_token %}
+<body>
+    <div class="wrapper">
+        <section class="list">
+            <header>
+                <h1>{{ poll.question }}</h1>
+            </header>
 
-    {% for choice in poll.choice_set.all %}
-        <label>
-            <input type="radio" name="choice" value="{{ choice.id }}">
-            {{ choice.choice_text }}
-        </label>
-    {% endfor %}
+            {% if error_message %}
+                <p class="notif notif--error list-error">{{ error_message }}</p>
+            {% endif %}
 
-    <input type="submit" value="Vote">
-    <a href="{% url 'polls_third_attempt:index' %}">Back to List</a>
-</form>
+            <form action="{% url 'polls_third_attempt:vote' poll.id %}" method="post" class="list-container">
+                {% csrf_token %}
+
+                {% for choice in poll.choice_set.all %}
+                    <label class="list-item">
+                        <input type="radio" name="choice" value="{{ choice.id }}">
+                        {{ choice.choice_text }}
+                    </label>
+                {% endfor %}
+
+                <div class="actions">
+                    <input type="submit" value="Vote" class="button">
+                    <a href="{% url 'polls_third_attempt:index' %}" class="button">Back to List</a>
+                </div>
+            </form>
+        </section>
+    </div>
+</body>
+</html>
