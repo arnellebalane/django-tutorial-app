@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>django-polls</title>
+
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'polls_fourth/stylesheets/application.css' %}">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="tileset">
+            <header>
+                <h1>Listing All Polls</h1>
+            </header>
+
+            <ul>
+                {% for poll in poll_list %}
+                    <li class="tile">
+                        <div class="tile-content">
+                            <header>
+                                <h2>{{ poll.question }}</h2>
+                            </header>
+
+                            <form action="{% url 'polls:vote' poll.id %}" method="post">
+                                {% csrf_token %}
+ 
+                                {% for choice in poll.choice_set.all %}
+                                    <label>
+                                        <input type="radio" name="choice" value="{{ choice.id }}" required>
+                                        {{ choice.choice_text }}
+                                        <span class="badge">{{ choice.votes }}</span>
+                                    </label>
+                                {% endfor %}
+
+                                <footer>
+                                    <input type="submit" value="Vote" class="button">
+                                </footer>
+                            </form>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
